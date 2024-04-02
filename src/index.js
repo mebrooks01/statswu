@@ -1,5 +1,5 @@
-const setString = 'AABC'
-const chooseInt = 3
+const setString = 'ABCDABCDABCD'
+const chooseInt = 5
 
 function genCombs(input, size) {
   const result = []
@@ -21,22 +21,17 @@ function genCombs(input, size) {
   return result
 } //generates an array of strings of valid combinations
 
-const result = genCombs(setString, chooseInt)
-console.log(result)
-
-//code to revise
-
-function countLetters(str) {
-  const count = {}
+function stringObj(str) {
+  const obj = {}
   for (let char of str) {
-    count[char] = (count[char] || 0) + 1
+    obj[char] = (obj[char] || 0) + 1
   }
-  return count
-}
+  return obj
+} //generates an object of letter counts for a given string
 
-function hasSameLetterCount(str1, str2) {
-  const count1 = countLetters(str1)
-  const count2 = countLetters(str2)
+function objCheck(str1, str2) {
+  const count1 = stringObj(str1)
+  const count2 = stringObj(str2)
 
   if (Object.keys(count1).length !== Object.keys(count2).length) {
     return false
@@ -49,14 +44,14 @@ function hasSameLetterCount(str1, str2) {
   }
 
   return true
-}
+}//checks if two objects match
 
-function removeDuplicates(arr) {
+function removeDups(arr) {
   const result = []
   for (let i = 0; i < arr.length; i++) {
     let isUnique = true
     for (let j = 0; j < result.length; j++) {
-      if (hasSameLetterCount(arr[i], result[j])) {
+      if (objCheck(arr[i], result[j])) {
         isUnique = false
         break
       }
@@ -66,8 +61,14 @@ function removeDuplicates(arr) {
     }
   }
   return result
-}
+} //removes duplicate combinations 
 
-const inputArray = ['AAB', 'AAC', 'ABC', 'ACB']
-const uniqueArray = removeDuplicates(inputArray)
-console.log(uniqueArray) // Output: ['AAB', 'AAC', 'ABC']
+const combos = genCombs(setString, chooseInt)
+const validCombos = removeDups(combos)
+
+console.log(combos)
+
+console.log(`Original Set: ${setString}`)
+console.log(`Chose: ${chooseInt}`)
+console.log(`Distinct Combinations: ${validCombos.length}`)
+console.log(validCombos)
